@@ -129,12 +129,12 @@ function collectTargetObservablesAndContext(templateObject) {
       var context = parentContext.slice();
       context.push(key);
 
-      // isObservable(?)
-      if (value instanceof Kefir.Observable) {
+      // maybe Observable
+      if (!!value && !!value.onValue) {
         targets.push(value);
         contexts.push(context);
 
-        // isArray || isObject
+      // isArray || isObject
       } else if (Array.isArray(value) || (!!value && typeof value === 'object')) {
         walker(value, context);
       }
