@@ -1,6 +1,6 @@
 {
   "name": "kefir.combinetemplate",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Generate values  based on the Observable and object template. Similar to `Bacon.combineTemplate`",
   "author": "ahomu",
   "main": "index.js",
