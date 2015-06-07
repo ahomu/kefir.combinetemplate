@@ -1,4 +1,4 @@
-# Rx.Observable.combineTemplate
+# Kefir.combineTemplate
 
 [![npm version][npm-image]][npm-url] [![build status][circle-image]][circle-url] [![Dependency Status][deps-image]][deps-url]
 
@@ -9,27 +9,27 @@ Generate values  based on the Observable and object template. Similar to [`Bacon
 ### Install
 
 ```bash
-npm install --save rx.observable.combinetemplate
+npm install --save kefir.combinetemplate
 ```
 
 ### Basics
 
 ```javascript
-import combineTemplate from 'rx.observable.combinetemplate';
-import * as Rx from 'rx';
+import combineTemplate from 'kefir.combinetemplate';
+import * as Kefir from 'kefir';
 
-let subject1 = new Rx.Subject();
-let subject2 = new Rx.Subject();
+let bus1 = Kefir.Bus();
+let bus2 = Kefir.Bus();
 
 combineTemplate({
   foo : 'bar',
   baz : {
-    foo : ['bar', subject1 'qux']
+    foo : ['bar', bus1 'qux']
   },
   qux : {
     foo : {
      foo : 'bar'
-     baz : subject2
+     baz : bus2
     }
   }
 }).subscribe((value)=> {
@@ -50,8 +50,8 @@ combineTemplate({
   */
 });
 
-subject1.onNext('BAZ');
-subject2.onNext('QUX');
+bus1.emit('BAZ');
+bus2.emit('QUX');
 ```
 
 ### with React
@@ -63,7 +63,7 @@ componentWillMount() {
   combineTemplate({
     items : store.itemsObservable$,
     count : store.itemsObservable$.map((items) => items.length)
-  }).subscribe(this.setState.bind(this));
+  }).onValue(this.setState.bind(this));
 }
 ```
 
@@ -85,9 +85,9 @@ npm test
 
 MIT
 
-[npm-image]: https://img.shields.io/npm/v/rx.observable.combinetemplate.svg
-[npm-url]: https://npmjs.org/package/rx.observable.combinetemplate
-[circle-image]: https://circleci.com/gh/ahomu/rx.observable.combinetemplate.svg?style=shield&circle-token=b12ab2a48027a249724e0b1924ccec8152d3068a
-[circle-url]: https://circleci.com/gh/ahomu/rx.observable.combinetemplate
-[deps-image]: https://david-dm.org/ahomu/rx.observable.combinetemplate.svg
-[deps-url]: https://david-dm.org/ahomu/rx.observable.combinetemplate
+[npm-image]: https://img.shields.io/npm/v/kefir.combinetemplate.svg
+[npm-url]: https://npmjs.org/package/kefir.combinetemplate
+[circle-image]: https://circleci.com/gh/ahomu/kefir.combinetemplate.svg?style=shield&circle-token=b12ab2a48027a249724e0b1924ccec8152d3068a
+[circle-url]: https://circleci.com/gh/ahomu/kefir.combinetemplate
+[deps-image]: https://david-dm.org/ahomu/kefir.combinetemplate.svg
+[deps-url]: https://david-dm.org/ahomu/kefir.combinetemplate

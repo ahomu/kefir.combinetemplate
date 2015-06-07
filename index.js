@@ -1,14 +1,14 @@
 'use strict';
 
 var clone = require('clone-deep');
-var Rx = require('rx-lite');
+var Kefir = require('kefir');
 
 /**
  * Generate values  based on the Observable and object template.
  * Similar to `Bacon.combineTemplate`.
  *
  * ```
- *   var combineTemplate = require('rx.observable.combinetemplate')
+ *   var combineTemplate = require('kefir.combinetemplate')
  *
  *   // observables
  *   var password, username, firstname, lastname;
@@ -21,22 +21,22 @@ var Rx = require('rx-lite');
  *     name: { first: firstname, last: lastname }
  *   });
  *
- *   loginInfo.subscribe((v) => {
+ *   loginInfo.onValue((v) => {
  *     console.log(v);
  *   });
  * ```
  *
  * @param {Object} templateObject
- * @returns {Rx.Observable}
+ * @returns {Kefir.Observable}
  */
 function combineTemplate(templateObject) {
   templateObject = templateObject || {};
 
-  // TODO avoid clone `Rx.Observable`
+  // TODO avoid clone `Kefir.Observable`
   var clonedTemplate = clone(templateObject);
   var collections = collectTargetObservablesAndContext(templateObject);
 
-  return Rx.Observable.combineLatest(
+  return Kefir.combine(
     collections.targets,
     createCombineObserver(collections.contexts, clonedTemplate)
   );
@@ -130,7 +130,7 @@ function collectTargetObservablesAndContext(templateObject) {
       context.push(key);
 
       // isObservable(?)
-      if (!!value && value.isDisposed != null && value.isStopped != null) {
+      if (value instanceof Kefir.Observable) {
         targets.push(value);
         contexts.push(context);
 

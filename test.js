@@ -1,14 +1,14 @@
 'use strict';
 
 import assert from 'power-assert';
-import combineTemplate from '../src/index';
-import Rx from 'rx-lite';
+import combineTemplate from './';
+import Kefir from 'kefir';
 
-describe('rx.observable.combineTemplate', ()=> {
+describe('kefir.combineTemplate', ()=> {
 
   it('empty', () => {
     let observable = combineTemplate({});
-    observable.subscribe(() => {});
+    observable.onValue(() => {});
   });
 
   it('falsy value', () => {
@@ -16,17 +16,17 @@ describe('rx.observable.combineTemplate', ()=> {
       foo : null,
       bar : undefined
     });
-    observable.subscribe(() => {});
+    observable.onValue(() => {});
   });
 
   it('object', (done) => {
-    let subject = new Rx.Subject();
+    let pool = Kefir.pool();
     let observable = combineTemplate({
       foo  : 'bar',
-      test : subject
+      test : pool
     });
 
-    observable.subscribe((v) => {
+    observable.onValue((v) => {
       if (v.test != null) {
         assert(v.foo === 'bar');
         assert(v.test === 'baz');
@@ -34,20 +34,20 @@ describe('rx.observable.combineTemplate', ()=> {
       }
     });
 
-    subject.onNext('baz');
+    pool._emitValue('baz');
   });
 
   it('array', (done) => {
-    let subject1 = new Rx.Subject();
-    let subject2 = new Rx.Subject();
-    let subject3 = new Rx.Subject();
+    let pool1 = Kefir.pool();
+    let pool2 = Kefir.pool();
+    let pool3 = Kefir.pool();
 
     let observable = combineTemplate({
-      test : [subject1, subject2, subject3],
+      test : [pool1, pool2, pool3],
       qux  : 'c⌒っ.ω.)っ'
     });
 
-    observable.subscribe((v) => {
+    observable.onValue((v) => {
       if (v != null) {
         assert(v.test[0] === 'foo');
         assert(v.test[1] === 'bar');
@@ -57,31 +57,31 @@ describe('rx.observable.combineTemplate', ()=> {
       }
     });
 
-    subject1.onNext('foo');
-    subject2.onNext('bar');
-    subject3.onNext('baz');
+    pool1._emitValue('foo');
+    pool2._emitValue('bar');
+    pool3._emitValue('baz');
   });
 
   it('nested', (done) => {
-    let subject1 = new Rx.Subject();
-    let subject2 = new Rx.Subject();
-    let subject3 = new Rx.Subject();
+    let pool1 = Kefir.pool();
+    let pool2 = Kefir.pool();
+    let pool3 = Kefir.pool();
 
     let observable = combineTemplate({
       foo : 'bar',
       baz : {
         foo : {
-          foo : subject1
+          foo : pool1
         },
         bar : 'baz'
       },
       qux : {
-        foo : [1, subject2, 3],
-        baz : subject3
+        foo : [1, pool2, 3],
+        baz : pool3
       }
     });
 
-    observable.subscribe((v) => {
+    observable.onValue((v) => {
       if (v != null) {
         assert(v.foo === 'bar');
         assert(v.baz.foo.foo === 'foo');
@@ -94,27 +94,27 @@ describe('rx.observable.combineTemplate', ()=> {
       }
     });
 
-    subject1.onNext('foo');
-    subject2.onNext('bar');
-    subject3.onNext('qux');
+    pool1._emitValue('foo');
+    pool2._emitValue('bar');
+    pool3._emitValue('qux');
   });
 
   it('twice', (done) => {
-    let subject1 = new Rx.Subject();
-    let subject2 = new Rx.Subject();
+    let pool1 = Kefir.pool();
+    let pool2 = Kefir.pool();
 
     let observable = combineTemplate({
-      test : ['foo', subject1, 'baz'],
-      qux  : subject2
+      test : ['foo', pool1, 'baz'],
+      qux  : pool2
     });
 
-    observable.subscribe((v) => {
+    observable.onValue((v) => {
       if (v != null && v.qux === 'FOO') {
         assert(v.test[0] === 'foo');
         assert(v.test[1] === 'BAR');
         assert(v.test[2] === 'baz');
         assert(v.qux === 'FOO');
-        subject2.onNext('END');
+        pool2._emitValue('END');
       }
       if (v != null && v.qux === 'END') {
         assert(v.test[0] === 'foo');
@@ -125,7 +125,7 @@ describe('rx.observable.combineTemplate', ()=> {
       }
     });
 
-    subject1.onNext('BAR');
-    subject2.onNext('FOO');
+    pool1._emitValue('BAR');
+    pool2._emitValue('FOO');
   });
 });

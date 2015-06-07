@@ -1,9 +1,9 @@
 {
-  "name": "rx.observable.combinetemplate",
-  "version": "0.2.1",
+  "name": "kefir.combinetemplate",
+  "version": "0.1.0",
   "description": "Generate values  based on the Observable and object template. Similar to `Bacon.combineTemplate`",
   "author": "ahomu",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "start": "npm run tdd",
     "test": "karma start --singleRun",
@@ -20,18 +20,18 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ahomu/rx.observable.combinetemplate"
+    "url": "https://github.com/ahomu/kefir.combinetemplate"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ahomu/rx.observable.combinetemplate/issues"
+    "url": "https://github.com/ahomu/kefir.combinetemplate/issues"
   },
-  "homepage": "https://github.com/ahomu/rx.observable.combinetemplate",
+  "homepage": "https://github.com/ahomu/kefir.combinetemplate",
   "dependencies": {
     "clone-deep": "^0.1.1"
   },
   "peerDependencies": {
-    "rx-lite": "^2.5.2"
+    "kefir": "^2.5.0"
   },
   "devDependencies": {
     "babel-core": "^5.4.3",
@@ -49,7 +49,7 @@
     "karma-mocha": "^0.1.10",
     "mocha": "^2.2.1",
     "power-assert": "^0.11.0",
-    "rx-lite": "^2.5.2",
+    "kefir": "^2.5.0",
     "watchify": "^2.4.0"
   }
 }
