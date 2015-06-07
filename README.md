@@ -87,7 +87,7 @@ MIT
 
 [npm-image]: https://img.shields.io/npm/v/kefir.combinetemplate.svg
 [npm-url]: https://npmjs.org/package/kefir.combinetemplate
-[circle-image]: https://circleci.com/gh/ahomu/kefir.combinetemplate.svg?style=shield&circle-token=b12ab2a48027a249724e0b1924ccec8152d3068a
+[circle-image]: https://circleci.com/gh/ahomu/kefir.combinetemplate.svg?style=shield&circle-token=0a4ff3695cb9fb9a7301ae6d43ba14f4ba1e0848
 [circle-url]: https://circleci.com/gh/ahomu/kefir.combinetemplate
 [deps-image]: https://david-dm.org/ahomu/kefir.combinetemplate.svg
 [deps-url]: https://david-dm.org/ahomu/kefir.combinetemplate
