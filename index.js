@@ -61,7 +61,7 @@ function createCombineObserver(targetContexts, baseObject) {
 
     // Compares the `newValues` and `prevValues` to confirm position has changed
     var changedArgPositions = newValues.map(function(value, i) {
-      return prevValues.indexOf(i) !== value ? i : null;
+      return prevValues.indexOf(value) !== i ? i : null;
     }).filter(function(value) {
       return value != null;
     });
